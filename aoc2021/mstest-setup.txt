@@ -1,0 +1,10 @@
+Add these nuget packages:
+* MSTest.TestFramework
+* MSTest.TestAdapter
+* Microsoft.NET.Test.Sdk
+
+/Users/john/Repos/aoc2021/day01/Program.cs(21,21): Error CS0017: Program has more than one entry point defined. Compile with /main to specify the type that contains the entry point. (CS0017) (day01)
+
+Edit the .csproj file and add this to the PropertyGroup:
+<GenerateProgramFile>false</GenerateProgramFile>
+

@@ -1,0 +1,13 @@
+{
+  "name": "aoc2023",
+  "version": "1.0.0",
+  "description": "Advent of Code 2023",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {},
+  "author": "John Harper <john@harper.link> (https://harper.link/)",
+  "license": "MIT",
+  "devDependencies": {
+    "eslint": "^8.54.0"
+  }
+}

@@ -1,0 +1,9 @@
+
+Needs optimization:
+Currently I'm splitting each cuboid in
+(a maximum of) 27 smaller cuboids.
+
+This isn't necessary.  When splitting the larger
+cuboid I need at most 6 cuboids.
+
+

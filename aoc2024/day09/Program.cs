@@ -9,7 +9,7 @@ string basedir = AppDomain.CurrentDomain.BaseDirectory;
 Directory.SetCurrentDirectory(basedir);
 string prefix = "../../../";
 
-string filename = "input-sample.txt";
+string filename = "input.txt";
 
 string[] lines = File.ReadAllLines($"{prefix}{filename}");
 Debug.Assert(lines.Length == 1, "Expected exactly one line of input");
@@ -20,9 +20,9 @@ ranges = HandleLine(lines[0], isPartOne: true);
 Console.WriteLine($"Part 1: {Sum(Compact(ranges))}");
 
 // Part 2
-// ranges = HandleLine(lines[0], isPartOne: false);
-// DumpBlockRangeList(ranges);
-// Dump(ranges);
+ranges = HandleLine(lines[0], isPartOne: false);
+Console.WriteLine($"Part 2: {Sum(Compact(ranges))}");
+
 
 long Sum(IEnumerable<BlockRange> ranges)
 {
@@ -67,6 +67,7 @@ List<BlockRange> Compact(List<BlockRange> ranges)
 
                 // The freeblock where we relocated the block will reduce in size
                 freeBlock.Length = freeBlock.Length - block.Length;
+                freeBlock.Start = freeBlock.Start + block.Length;
                 
                 // zero out the lenght of the successfully relocated block so
                 // it will be removed
@@ -77,7 +78,7 @@ List<BlockRange> Compact(List<BlockRange> ranges)
                 // returns a list with the adjacent free blocks merged.
                 allRanges = RemoveEmptyBlocks(allRanges);
                 allRanges = allRanges.OrderBy(r => r.Start).ToList();
-                //allRanges = MergeFreeBlocks(allRanges);
+
                 break;
             }
         }
@@ -91,59 +92,8 @@ List<BlockRange> RemoveEmptyBlocks(List<BlockRange> ranges)
     return ranges.Where(r => r.Length > 0).ToList();
 }
 
-List<BlockRange> MergeFreeBlocks(List<BlockRange> ranges)
-{
-    List<BlockRange> merged = new List<BlockRange>();
 
-    for (int i = 0; i < ranges.Count; i++)
-    {
-        var block = ranges[i];
-        for (int j = i+1; j < ranges.Count; j++)
-        {
-            if (block.IsEmpty && ranges[j].IsEmpty)
-            {
-                block.Length += ranges[j].Length;
-                i++;
-            }
-            else
-            {
-                break;
-            }
-        }
-        merged.Add(block);
-    }
-
-    return merged;
-}
-
-
-// List<BlockRange> relocateBlocks = new List<BlockRange>(occupied);
-// relocateBlocks.Sort((a, b) => b.Start.CompareTo(a.Start));
-
-// foreach(var block in relocateBlocks)
-// {
-//     foreach (var freeBlock in free)
-//     {
-//         if (freeBlock.WillFit(block))
-//         {
-//             var newBlock = new BlockRange(freeBlock.Start, block.Length, block.Id);
-//             occupied.Add(newBlock);
-//             freeBlock.Fit(block);
-//             break;
-//         }
-//     }
-//     free = free.Where(b => b.Length > 0).ToList();
-//     occupied = occupied.Where(b => b.Length > 0).ToList();
-//     free.Sort((a, b) => a.Start.CompareTo(b.Start));
-//     occupied.Sort((a, b) => a.Start.CompareTo(b.Start));
-//     Dump(free, occupied);
-// }
-
-// List<BlockRange> Compact(List<BlockRange> blockRanges)
-// {
-
-// }
-
+#pragma warning disable CS8321 // Local function is declared but never used
 void DumpBlockRangeList(IEnumerable<BlockRange> ranges)
 {
     foreach (var range in ranges)
@@ -164,15 +114,9 @@ void Dump(IEnumerable<BlockRange> ranges)
     }
     Console.WriteLine();
 }
+#pragma warning restore CS8321 // Local function is declared but never used
 
 
-// void TrimEnd()
-// {
-//     while (free.Count > 0 && free.Last() > occupied.Last())
-//     {
-//         free.RemoveAt(free.Count - 1);
-//     }
-// }
 
 List<BlockRange> HandleLine(string line, bool isPartOne)
 {
@@ -229,11 +173,4 @@ List<BlockRange> HandleLine(string line, bool isPartOne)
     }
 
     return blockRanges;
-}
-
-
-BlockRange GetLast(List<BlockRange> list)
-{
-    if (list.Count == 0) throw new Exception("List is empty");
-    return list[list.Count - 1];
 }

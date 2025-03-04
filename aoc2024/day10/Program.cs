@@ -108,22 +108,26 @@ class Program
       }
     }
 
-    long sum = 0;
+    long part1 = 0;
+    long part2 = 0;
     foreach(var p in heights[0])
     {
       HashSet<(int, int)> peaks = new HashSet<(int, int)>();
+
       foreach (var path in paths[p])
       {
         if (path.Count == 10) {
           peaks.Add(path[0]);
+          part2++;
         }
       }
 
-      sum += peaks.Count;
+      part1 += peaks.Count;
       Console.WriteLine($"Trailhead at {p} has {peaks.Count} peaks");
     }
 
-    Console.WriteLine($"Sum: {sum}");
+    Console.WriteLine($"Part 1: {part1}");
+    Console.WriteLine($"Part 2: {part2}");
   }
 
   static int get((int, int) pos)

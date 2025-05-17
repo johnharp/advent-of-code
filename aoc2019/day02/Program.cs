@@ -10,6 +10,9 @@ class Program
         var input = puzzleInput();
         bool solved = false;
 
+        var part1Result = solveWith(12, 2, input);
+        Console.WriteLine("Part 1: " + part1Result[0]);
+
         for (int n = 0; n < 100 && !solved; n++)
         {
             for (int v = 0; v < 100 && !solved; v++)
@@ -17,7 +20,7 @@ class Program
                 var result = solveWith(n, v, input);
                 if (result[0] == 19690720)
                 {
-                    Console.WriteLine(100 * n + v);
+                    Console.WriteLine("Part 2: " + (100 * n + v).ToString());
                     solved = true;
                 }
             }
